@@ -1,23 +1,33 @@
-import React, { Component } from 'react';
-import ChatUI from './ChatUI.js'
+import React, { useState } from 'react';
+import MessageSpace from './MessageSpace.js';
+import TextInputBar from './TextInputBar.js';
+import AppLayout from './AppLayout.js';
+
+import dummyMessages from './dummyMessages.js';
 
 
 import Typography from '@material-ui/core/Typography';
 
 import red from '@material-ui/core/colors/red';
 import grey from '@material-ui/core/colors/grey';
+import lightBlue from '@material-ui/core/colors/lightBlue';
 
 import Backdrop from '@material-ui/core/Backdrop';
 
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme } from '@material-ui/core/styles/';
 
 const theme = createMuiTheme({
   palette: {
+    primary: {main:grey[100]},
+    secondary: {main:lightBlue[200]},
     error: red,
     contrastThreshold: 3,
     tonalOffset: 0.2,
+    background:{
+      default:lightBlue[300]
+    }
   },
   typography: {
     useNextVariants: true,
@@ -25,23 +35,49 @@ const theme = createMuiTheme({
 });
 
 
-class App extends Component {
-  constructor( props ) {
-    super( props );
-    this.state = {
-    };
+const App = (props) => {
+  
+  const [messages, setMessages] = useState(dummyMessages)
+  const [user, setUser] = useState("red");
 
-}
-  render() {
-    return (
-          <MuiThemeProvider theme={theme}>
-          <CssBaseline/>
-	         <ChatUI/>
-           </MuiThemeProvider>
+  const mountMessage = (e, contents) =>{
+      
+
+      var token = contents
+      var msgUpdate = messages
+      msgUpdate.push({token:token, time: new Date().toLocaleString(),
+      author:user})
+      setMessages(msgUpdate)
+      if (user === 'red'){
+        setUser('blue')
+      }else{
+        setUser('red')
+      }
+      e.preventDefault()
+      console.log(messages)
+    }
+
+
+  return (
+      <ThemeProvider theme={theme}>
+      <CssBaseline/><Backdrop open />
+       <AppLayout
+       messageSpace={<MessageSpace
+       messages={messages}
+       />}
+       textInputBar={<TextInputBar
+       mountMessage={mountMessage}
+       messages={messages}
+       user={user}
+       />}
+        />
+       
+       
+       </ThemeProvider>
 
 
     );
-  }
+  
 }
 
 export default App;
