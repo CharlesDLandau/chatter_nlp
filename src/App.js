@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ChatUI from './components/ChatUI/ChatUI.js'
+import ChatUI from './ChatUI.js'
 
 
 import Typography from '@material-ui/core/Typography';
@@ -8,7 +8,6 @@ import red from '@material-ui/core/colors/red';
 import grey from '@material-ui/core/colors/grey';
 
 import Backdrop from '@material-ui/core/Backdrop';
-import NoSsr from '@material-ui/core/NoSsr';
 
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -27,12 +26,20 @@ const theme = createMuiTheme({
 
 
 class App extends Component {
+  constructor( props ) {
+    super( props );
+    this.state = {
+    };
+
+}
   render() {
     return (
-          <MuiThemeProvider theme={theme}><NoSsr><Backdrop open/><CssBaseline/>
-	<ChatUI/></NoSsr></MuiThemeProvider>
-        
-      
+          <MuiThemeProvider theme={theme}>
+          <CssBaseline/>
+	         <ChatUI/>
+           </MuiThemeProvider>
+
+
     );
   }
 }
