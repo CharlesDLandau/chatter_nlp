@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     float:'right',
     backgroundColor:theme.palette.primary.main,
     margin:theme.spacing(1),
-    minWidth:theme.spacing(2),
+    minWidth:'51%',
     maxWidth:'70%',
     textAlign:'left'
   },
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   	float:'left',
   	backgroundColor:theme.palette.primary.dark,
   	margin:theme.spacing(1),
-  	minWidth:theme.spacing(5),
+  	minWidth:'51%',
     maxWidth:'70%',
   	textAlign:'left'
   }
@@ -51,15 +51,28 @@ function Message(props){
       var msgCls = classes.blueMessage
       break
   }
-  return <Grid item><Card
-            className={msgCls}>
+  return <Grid item>
+            <Card className={msgCls}>
+
+            {/* Head of message*/}
             <CardHeader className={classes.cardHead} title={
               <Typography style={{textOverflow:'ellipsis', whiteSpace:'nowrap'}}
                variant='subtitle2'>
-              {`Message from ${msg.author} at ${msg.time}`}</Typography>
+              {`Message from ${msg.author}`}</Typography>
             } />
-            <Typography gutterBottom variant='h6'>{msg.token}</Typography>
-              </Card></Grid>
+            
+            {/* Main body of message*/}
+            <Typography gutterBottom variant='h6'>
+            {`${msg.token}`}
+            </Typography>
+            
+            {/* Datetime of message*/}
+            <Typography style={{float:'right'}}
+            variant='caption'>
+            {`${msg.time}`}</Typography>
+              
+            </Card>
+        </Grid>
 
 }
 
