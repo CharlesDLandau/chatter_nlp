@@ -1,9 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Message from './Message.js';
@@ -34,8 +33,9 @@ function MessageSpace(props) {
     const msgRender = (<div className={classes.root}>
         
         {messages.map((msg, idx)=>{
-          return <Box component="span"><Message msg={msg}
-          key={`msg-${idx*1000}-${msg.author}`} /></Box>
+          return <Box component="span"
+          key={`msg-${idx}-${msg.author}`}>
+          <Message msg={msg}/></Box>
           })
         }
         
