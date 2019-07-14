@@ -24,26 +24,28 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
+// A component that displays Message components.
+// Accepts an array of objects as props.messages
 function MessageSpace(props) {
     const classes = useStyles()
     const [nlpView, setNLPViewMode] = React.useState(false);
 
-    const { messages } = props
-    
+    const { messages, txt } = props
+
     const msgRender = (<div className={classes.root}>
-        
+
         {messages.map((msg, idx)=>{
           return <Box component="span"
           key={`msg-${idx}-${msg.author}`}>
           <Message msg={msg}/></Box>
           })
         }
-        
+
         </div>)
 
     return(
       <Fragment>
-        {nlpView ? <AnalysisView messages={messages} /> : msgRender }
+        {nlpView ? <AnalysisView messages={messages} txt={txt} /> : msgRender }
         <Button variant='contained' className={classes.viewButton}
         onClick={()=>{setNLPViewMode(!nlpView)}}>
         {
@@ -56,7 +58,7 @@ function MessageSpace(props) {
 
 
 MessageSpace.propTypes = {
-  
+
 };
 
 export default MessageSpace

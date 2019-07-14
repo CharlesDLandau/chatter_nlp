@@ -18,6 +18,8 @@ import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme } from '@material-ui/core/styles/';
 
+import TextAnalysis from './textAnalysis.js';
+
 const theme = createMuiTheme({
   palette: {
     primary: {main:grey[100]},
@@ -36,12 +38,13 @@ const theme = createMuiTheme({
 
 
 const App = (props) => {
-  
+
   const [messages, setMessages] = useState(dummyMessages)
   const [user, setUser] = useState("red");
 
+
   const mountMessage = (e, contents) =>{
-      
+
 
       var token = contents
       var msgUpdate = messages
@@ -64,6 +67,7 @@ const App = (props) => {
        <AppLayout
        messageSpace={<MessageSpace
        messages={messages}
+       txt={new TextAnalysis(messages)}
        />}
        textInputBar={<TextInputBar
        mountMessage={mountMessage}
@@ -71,13 +75,13 @@ const App = (props) => {
        user={user}
        />}
         />
-       
-       
+
+
        </ThemeProvider>
 
 
     );
-  
+
 }
 
 export default App;

@@ -6,18 +6,19 @@ export default class TextAnalysis{
 		this.mergedTokens = nlp(
 			this.docs.map(obj => obj.token).join()
 		)
-		
+
+
+
 	}
 
 	tf(d, t){
 		// Takes a document and term
 		// Returns the term frequency (tf)
 		// tf = (occurrances of search term/N unique terms)
-		
-		var tCount = nlp(d.token).match(t).out('array').length
+
 		var nUnique = nlp(d.token).terms().out('freq').length
-		
-		return (tCount/nUnique) 
+
+		return (t/nUnique)
 	}
 
 	idf(t){
@@ -28,10 +29,66 @@ export default class TextAnalysis{
 
 		var nDocs = this.docs.length
 		var nMatches = this.docs.filter(
-			doc=>{doc.match(t).found()}
-				).length
-		return Math.log((nDocs/nMatches))
+			doc=>{
+				var matched = doc.token.match(t)
+				if(matched){
+					return true}
+				else{
+					return false}
+				}
+		).length
 
+		var result = nDocs / nMatches
+		if (!isFinite(result)){
+			return 0
+		}else{
+		return Math.log(result)
+		}
+	}
+
+	tfIdf(doc){
+		// Takes a document from this.docs
+		// Returns a sorted array of objects in the form:
+		// {term:<String>, weight:<Float>}
+		// This is a vector of terms and Tf-Idf weights
+
+
+
+		var tfIdfVector = nlp(doc.token).terms().out('freq').map((d)=>{
+			console.log(d)
+			var t = d['normal']
+
+
+			var tf = this.tf(doc, d['count'])
+
+			var idf = this.idf(t)
+
+			return {term: t, weight:tf*idf}
+			}
+		)
+
+		var sortedTfIdfVector = tfIdfVector.sort((obj0, obj1)=>{
+			var w0 = obj0.weight
+			var w1 = obj1.weight
+			if (w0 < w1){
+				return 1
+			}
+			if (w0 > w1){
+				return -1
+			}
+			return 0
+		})
+
+		return sortedTfIdfVector
+
+	}
+
+	randomTfIdf(){
+		// see: https://stackoverflow.com/questions/4550505/
+		// /getting-a-random-value-from-a-javascript-array
+		var rand = this.docs[Math.floor(Math.random() * this.docs.length)];
+
+		return this.tfIdf(rand)
 	}
 
 	getDocs(){
@@ -40,19 +97,18 @@ export default class TextAnalysis{
 
 	mergedTokensDoc(opts){
 		// TODO: filter opt to only get tokens for a given set of user
-		
+
 		// Pass an opt to the nlp.out method, else 'text'
 		try{return this.mergedTokens.out(`${opts.out}`)}catch(error){
 			return this.mergedTokens.out('text')
 		}
 	}
 
-	firstTFIDF(){
-		
-	};
+
 
 	cardData(opts){
-
+		var rTfIdf = this.randomTfIdf()
+		console.log(rTfIdf.slice(0, 3))
 		return [
 				{
 					title: "Term Frequency (Overall)",
@@ -68,17 +124,17 @@ export default class TextAnalysis{
 						})]},
 					chartType: 'Bar',
 					chartOpts: {
-					}	
+					}
 				},
 				{
-					title: "TF-IDF Top Weights in the first Message",
+					title: "TF-IDF Top Weights in random Message",
 					chartData: {
-						labels: [],
-						series:[],
+						labels: rTfIdf.slice(0, 8).map(obj=>{return obj.term}),
+						series:[rTfIdf.slice(0, 8).map(obj=>{return obj.weight})],
 					},
 					chartType: 'Bar',
 					chartOpts: {
-					}	
+					}
 				},
 				{
 					title: "Named Entities",
