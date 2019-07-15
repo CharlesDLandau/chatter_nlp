@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor:theme.palette.secondary.main,
   },
   cardBody:{
-    flexGrow:1
+    flexGrow:1,
+    padding: theme.spacing(2)
   },
   card:{
     margin: theme.spacing(2)

@@ -60,7 +60,7 @@ function Message(props){
 
             {/* Main body of message*/}
             <Typography gutterBottom variant='h6'>
-            {`${msg.token}`}
+            {`${msg.text}`}
             </Typography>
 
             {/* Datetime of message*/}

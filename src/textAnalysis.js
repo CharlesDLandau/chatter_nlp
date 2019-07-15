@@ -3,8 +3,8 @@ import nlp from 'compromise';
 export default class TextAnalysis{
 	constructor(docs){
 		this.docs = docs
-		this.mergedTokens = nlp(
-			this.docs.map(obj => obj.token).join()
+		this.mergedDocs = nlp(
+			this.docs.map(obj => obj.text).join()
 		)
 
 
@@ -16,7 +16,7 @@ export default class TextAnalysis{
 		// Returns the term frequency (tf)
 		// tf = (occurrances of search term/N unique terms)
 
-		var nUnique = nlp(d.token).terms().out('freq').length
+		var nUnique = nlp(d.text).terms().out('freq').length
 
 		return (t/nUnique)
 	}
@@ -30,7 +30,7 @@ export default class TextAnalysis{
 		var nDocs = this.docs.length
 		var nMatches = this.docs.filter(
 			doc=>{
-				var matched = doc.token.match(t)
+				var matched = doc.text.match(t)
 				if(matched){
 					return true}
 				else{
@@ -54,8 +54,7 @@ export default class TextAnalysis{
 
 
 
-		var tfIdfVector = nlp(doc.token).terms().out('freq').map((d)=>{
-			console.log(d)
+		var tfIdfVector = nlp(doc.text).terms().out('freq').map((d)=>{
 			var t = d['normal']
 
 
@@ -96,11 +95,11 @@ export default class TextAnalysis{
 	}
 
 	mergedTokensDoc(opts){
-		// TODO: filter opt to only get tokens e.g. for a given set of user
+		// TODO: filter opt to only get texts e.g. for a given set of user
 
 		// Pass an opt to the nlp.out method, else 'text'
-		try{return this.mergedTokens.out(`${opts.out}`)}catch(error){
-			return this.mergedTokens.out('text')
+		try{return this.mergedDocs.out(`${opts.out}`)}catch(error){
+			return this.mergedDocs.out('text')
 		}
 	}
 
@@ -112,43 +111,52 @@ export default class TextAnalysis{
 		return [
 				{
 					title: "Term Frequency (Overall)",
-					chartData: {labels: this.mergedTokens.terms().out(
+					chartData: {labels: this.mergedDocs.terms().out(
 						'freq').slice(0, 5).map(
 						obj=>{
 							return obj.normal
 						}),
-						series:[this.mergedTokens.terms().out(
+						series:[this.mergedDocs.terms().out(
 						'freq').slice(0, 5).map(
 						obj=>{
 							return obj.count
 						})]},
 					chartType: 'Bar',
 					chartOpts: {
+						chartPadding:{left:50, right:50},
 					}
 				},
 				{
 					title: "TF-IDF Top Weights in random Message",
 					chartData: {
-						labels: rTfIdf.slice(0, 8).map(obj=>{return obj.term}),
-						series:[rTfIdf.slice(0, 8).map(obj=>{return obj.weight})],
+						labels: rTfIdf.slice(0, 5).map(obj=>{return obj.term}),
+						series:[rTfIdf.slice(0, 5).map(obj=>{return obj.weight})],
 					},
 					chartType: 'Bar',
 					chartOpts: {
+						chartPadding:{left:50, right:50},
+						horizontalBars:true,
+						axisX:{showLabel:false,},
 					}
 				},
 				{
 					title: "Named Entities",
 					chartData: {
-						labels: this.mergedTokens.topics(
-							).out('freq').map(
+						labels: this.mergedDocs.topics(
+							).out('freq').slice(0, 5).map(
 								data=>{return data.normal}
 						),
-						series:[this.mergedTokens.topics(
-							).out('freq').map(
+						series:[this.mergedDocs.topics(
+							).out('freq').slice(0, 5).map(
 								data=>{return data.count}
 						)]},
 					chartType: 'Bar',
 					chartOpts: {
+						chartPadding:{left:50, right:50},
+						horizontalBars:true,
+						axisX:{onlyInteger:true,},
+						height: '200px',
+						labelOffset:{x:-45}
 					}
 				},
 				{
@@ -156,11 +164,11 @@ export default class TextAnalysis{
 					chartData: {
 						labels: ["Noun", "Verb", "Adjective"],
 						series:[
-						this.mergedTokens.match('#Noun'
+						this.mergedDocs.match('#Noun'
 							).out('array').length,
-						this.mergedTokens.match('#Verb'
+						this.mergedDocs.match('#Verb'
 								).out('array').length,
-						this.mergedTokens.match('#Adjective'
+						this.mergedDocs.match('#Adjective'
 								).out('array').length
 						]},
 					chartType: 'Pie',

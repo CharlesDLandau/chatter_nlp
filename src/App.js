@@ -43,9 +43,9 @@ const App = (props) => {
   const mountMessage = (e, contents) =>{
 
 
-      var token = contents
+      var text = contents
       var msgUpdate = messages
-      msgUpdate.push({token:token, time: new Date().toLocaleString(),
+      msgUpdate.push({text:text, time: new Date().toLocaleString(),
       author:user})
       setMessages(msgUpdate)
       if (user === 'red'){
@@ -54,7 +54,6 @@ const App = (props) => {
         setUser('red')
       }
       e.preventDefault()
-      console.log(messages)
     }
 
 
