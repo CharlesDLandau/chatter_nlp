@@ -6,17 +6,13 @@ export default class TextAnalysis{
 		this.mergedDocs = nlp(
 			this.docs.map(obj => obj.text).join()
 		)
-
-
-
 	}
 
-	tf(d, t){
-		// Takes a document and term
+	tf(d, occ){
+		// Takes a document and N occurrances of a term
 		// Returns the term frequency (tf)
 		// tf = (occurrances of search term/N terms)
-		
-		return (t/nlp(d.text).terms().out('array').length)
+		return (occ/nlp(d.text).terms().out('array').length)
 	}
 
 	idf(t){
