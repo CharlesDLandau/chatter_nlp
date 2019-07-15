@@ -109,7 +109,6 @@ export default class TextAnalysis{
 	cardData(opts){
 		// Used for AnalysisCard.js
 		var rTfIdf = this.randomTfIdf()
-		console.log(rTfIdf.slice(0, 3))
 		return [
 				{
 					title: "Term Frequency (Overall)",
