@@ -14,11 +14,9 @@ export default class TextAnalysis{
 	tf(d, t){
 		// Takes a document and term
 		// Returns the term frequency (tf)
-		// tf = (occurrances of search term/N unique terms)
-
-		var nUnique = nlp(d.text).terms().length
-
-		return (t/nUnique)
+		// tf = (occurrances of search term/N terms)
+		
+		return (t/nlp(d.text).terms().out('array').length)
 	}
 
 	idf(t){
