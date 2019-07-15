@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-
+// Parses a single object from TextAnalysis.cardData()
 function AnalysisCard(props){
   var { data } = props
   const classes = useStyles();
@@ -39,9 +39,9 @@ function AnalysisCard(props){
            variant='subtitle2'>
           {data.title}</Typography>
         } />
-        
+
         {/* Main body of message (a chart)*/}
-        <ChartistGraph 
+        <ChartistGraph
         data={data.chartData}
         type={data.chartType}
         options={data.chartOpts} />

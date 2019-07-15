@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import CardHeader from '@material-ui/core/CardHeader';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
@@ -37,12 +36,16 @@ function Message(props){
   var { msg } = props
   const classes = useStyles();
 
+  var msgCls
   switch(msg.author){
     case "red":
-      var msgCls = classes.redMessage
+      msgCls = classes.redMessage
       break
     case "blue":
-      var msgCls = classes.blueMessage
+      msgCls = classes.blueMessage
+      break
+    default:
+      msgCls = classes.redMessage
       break
   }
   return <Grid item>
@@ -54,17 +57,17 @@ function Message(props){
                variant='subtitle2'>
               {`Message from ${msg.author}`}</Typography>
             } />
-            
+
             {/* Main body of message*/}
             <Typography gutterBottom variant='h6'>
             {`${msg.token}`}
             </Typography>
-            
+
             {/* Datetime of message*/}
             <Typography style={{float:'right'}}
             variant='caption'>
             {`${msg.time}`}</Typography>
-              
+
             </Card>
         </Grid>
 

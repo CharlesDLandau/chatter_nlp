@@ -1,5 +1,4 @@
-import React, { Fragment, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -17,7 +16,8 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-
+// The messages were overlapping with the text drawer
+// and this is the hacky solution I went with
 function AppLayout(props) {
     const { messageSpace, textInputBar } = props
     const classes = useStyles()
@@ -34,10 +34,5 @@ function AppLayout(props) {
 
       )
 }
-
-
-AppLayout.propTypes = {
-  
-};
 
 export default AppLayout

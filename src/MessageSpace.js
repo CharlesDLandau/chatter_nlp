@@ -24,14 +24,26 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-// A component that displays Message components.
+// A component that displays Message components or AnalysisView
 // Accepts an array of objects as props.messages
 function MessageSpace(props) {
     const classes = useStyles()
-    const [nlpView, setNLPViewMode] = React.useState(false);
 
+    // Signal which view should be used
+    const [nlpView, setNLPViewMode] = React.useState(false);
     const { messages, txt } = props
 
+    const scrollViewRef = new React.createRef()
+
+    // Scroll to bottom
+    React.useEffect(()=>{
+      scrollViewRef.current.scrollIntoView()
+      if (scrollViewRef.current){
+
+      }
+    })
+
+    // Messages
     const msgRender = (<div className={classes.root}>
 
         {messages.map((msg, idx)=>{
@@ -46,7 +58,8 @@ function MessageSpace(props) {
     return(
       <Fragment>
         {nlpView ? <AnalysisView messages={messages} txt={txt} /> : msgRender }
-        <Button variant='contained' className={classes.viewButton}
+        <Button  ref={scrollViewRef} variant='contained'
+        className={classes.viewButton}
         onClick={()=>{setNLPViewMode(!nlpView)}}>
         {
           nlpView ? `Switch to Chat View` : `Switch to Analysis View`

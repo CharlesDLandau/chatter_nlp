@@ -96,7 +96,7 @@ export default class TextAnalysis{
 	}
 
 	mergedTokensDoc(opts){
-		// TODO: filter opt to only get tokens for a given set of user
+		// TODO: filter opt to only get tokens e.g. for a given set of user
 
 		// Pass an opt to the nlp.out method, else 'text'
 		try{return this.mergedTokens.out(`${opts.out}`)}catch(error){
@@ -107,6 +107,7 @@ export default class TextAnalysis{
 
 
 	cardData(opts){
+		// Used for AnalysisCard.js
 		var rTfIdf = this.randomTfIdf()
 		console.log(rTfIdf.slice(0, 3))
 		return [

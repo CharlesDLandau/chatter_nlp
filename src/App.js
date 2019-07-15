@@ -5,9 +5,6 @@ import AppLayout from './AppLayout.js';
 
 import dummyMessages from './dummyMessages.js';
 
-
-import Typography from '@material-ui/core/Typography';
-
 import red from '@material-ui/core/colors/red';
 import grey from '@material-ui/core/colors/grey';
 import lightBlue from '@material-ui/core/colors/lightBlue';

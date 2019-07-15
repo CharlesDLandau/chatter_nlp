@@ -31,6 +31,10 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
+// A persistent drawer with the message submit logic.
+// Includes shift+enter and send button click event handling
+// Takes a user prop to display in the message hint
+// e.g. "Write message as red"
 function TextInputDrawer(props){
   const [contents, setContents] = useState('');
 
@@ -39,7 +43,7 @@ function TextInputDrawer(props){
   // Parse props
   const mountMessage = props.mountMessage
   const { user } = props
-  
+
   // Message management is in parent...
   const handleSubmit = (e) => {
     e.persist()
@@ -69,7 +73,10 @@ function TextInputDrawer(props){
         />
         <Button
         onClick={
-          (e)=>mountMessage(e, contents)
+          (e)=>{
+            mountMessage(e, contents)
+            setContents('')
+          }
         }>Send
         </Button>
         </Grid></Drawer>

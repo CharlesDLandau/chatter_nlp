@@ -1,16 +1,12 @@
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-
 import AnalysisCard from './AnalysisCard.js';
 
-const useStyles = makeStyles(theme => ({
 
-}));
-
-
+// Maps props to AnalysisCard component
+// TODO: extend this or refactor it out
 function AnalysisView(props){
-  var { messages, txt } = props
+  var { txt } = props
 
 
   var cardData = txt.cardData()
